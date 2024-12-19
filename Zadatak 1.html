@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradacija boja</title>
+    <style>
+        /* Stil za svaki element */
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .box {
+            width: 100px;
+            border-radius: 6px;
+            height: 200px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+        }
+        input{
+            padding: 4px;
+            border-radius: 6px;
+            border: 1px solid darkgrey;
+        }
+        .button{
+            border-radius: 6px;
+            border: none;
+            background: darkseagreen;
+            padding: 5px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .d-flex{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="d-flex">PRIKAZ REŠENJA ZADATKA</h1>
+    <div class="d-flex">
+        <div>Unesite broj elemenata:</div>&nbsp;&nbsp;&nbsp;
+        <input type="number" id="contentElement" min="1" value="">
+        <button onclick="generateElements()" class="button">Generiši</button>
+    </div>
+    <br>
+    <div id="container" class="d-flex"></div>
+
+    <script>
+        function generateElements() {
+            // broj elemenata promenljiv
+            const numElements = parseInt(document.getElementById('contentElement').value);
+            
+            // refresh funkcije da element uvek iznova računa
+            const container = document.getElementById("container");
+            container.innerHTML="";
+
+            // Generisanje elemenata
+            for (let i = 0; i < numElements; i++) {
+                const element = document.createElement("div");
+                
+                element.classList.add("box");
+
+                // Izračunavanje svetlosti boje: prvi je crn, svaki sledeći je svetliji
+                let brightness = 0; // Početna svetlost (crna)
+                if (i > 0) {
+                    brightness = Math.floor((i / (numElements - 1)) * 255); // Gradacija svetla od 0 (crno) do 255 (belo)
+                }
+                
+                // Postavljanje boje pozadine
+                const backgroundColor = `rgb(${brightness}, ${brightness}, ${brightness})`;
+                element.style.backgroundColor = backgroundColor;
+
+                // Izračunavanje textColor boje pozadine
+                let textColor = 0.6 * brightness ;
+
+                //Boja teksta (crno ili belo)
+                if (textColor > 128) {
+                    element.style.color = 'black'; // Svetla pozadina, crni tekst
+                } else {
+                    element.style.color = 'white'; // Tamna pozadina, beli tekst
+                }
+
+                // Postavljanje teksta
+                 const span = document.createElement('span');
+                 span.textContent = `Ja sam ${i + 1}. element`;
+
+                // Dodavanje elementa u kontejner
+                element.appendChild(span);
+                container.appendChild(element);
+            }
+        }
+
+        // Poziv funkcije na početku kako bi se inicijalno generisali elementi
+        console.log(generateElements);
+    </script>
+</body>
+</html>
+
+
+
